@@ -1,6 +1,6 @@
 import { ratelimit } from "../config/upSlash.js";
 
-export const rateLimiter = async (req, res, next) => {
+const rateLimiter = async (req, res, next) => {
   try {
     const { success } = await ratelimit.limit("my-limit-key");
     if (!success) {
@@ -12,6 +12,7 @@ export const rateLimiter = async (req, res, next) => {
   } catch (error) {
     console.log("Rate Limiter Error:", error);
     next(error);
-    
   }
 };
+
+export default rateLimiter;
