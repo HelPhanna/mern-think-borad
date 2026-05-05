@@ -1,18 +1,11 @@
-import { ratelimit } from "../config/upSlash.js";
+import rateLimit from "express-rate-limit";
 
-const rateLimiter = async (req, res, next) => {
-  try {
-    const { success } = await ratelimit.limit("my-limit-key");
-    if (!success) {
-      return res
-        .status(429)
-        .json({ message: "Too many requests, please try again later." });
-    }
-    next();
-  } catch (error) {
-    console.log("Rate Limiter Error:", error);
-    next(error);
-  }
-};
+const rateLimiter = rateLimit({
+  windowMs: 60 * 1000, // 1 minute
+  max: 100,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { message: "Too many requests, please try again later." },
+});
 
 export default rateLimiter;
