@@ -1,11 +1,12 @@
-import { Routes, Route } from "react-router";
-import { HomePage, CreatePage, NoteDetailPage } from "./page";
+import { Route, Routes } from "react-router";
+
+import { CreatePage, HomePage, NoteDetailPage } from "../features/notes/pages";
+
 export const App = () => {
   return (
     <div className="relative min-h-screen w-full">
       <div
-        className="absolute inset-0 -z-10 h-full w-full items-center px-5 py-24
-       [background:radial-gradient(125%_125%_at_50%_10%,#000_60%,#00FF9D40_100%)]"
+        className="absolute inset-0 -z-10 h-full w-full items-center px-5 py-24 [background:radial-gradient(125%_125%_at_50%_10%,#000_60%,#00FF9D40_100%)]"
       />
       <Routes>
         <Route path="/" element={<HomePage />} />

@@ -5,11 +5,10 @@ import {
   getAllNotes,
   updateNote,
   getNoteById,
-} from "../controllers/notesController.js";
+} from "./notes.controller.js";
 
 const router = express.Router();
 
-// Define routes for notes
 router.get("/", getAllNotes);
 router.get("/:id", getNoteById);
 router.post("/", createNote);

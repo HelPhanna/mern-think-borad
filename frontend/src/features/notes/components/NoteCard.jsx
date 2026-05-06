@@ -1,33 +1,27 @@
 import toast from "react-hot-toast";
-import { PenSquare, Trash2Icon } from "lucide-react";
 import { Link } from "react-router";
+import { PenSquare, Trash2Icon } from "lucide-react";
 
-import formatDate from "../lib/utils";
-import api from "../lib/axios";
+import apiClient from "../../../shared/lib/apiClient";
+import formatDate from "../../../shared/utils/formatDate";
 
 export const NoteCard = ({ note, setNotes }) => {
   const handleDelete = async (e, id) => {
-    e.preventDefault(); // Prevent navigation to note detail page when delete button is clicked
-    e.stopPropagation(); // Stop the click event from bubbling up to the Link component
+    e.preventDefault();
+    e.stopPropagation();
 
-    // Implement delete functionality here
     if (!window.confirm("Are you sure you want to delete this note?")) return;
 
     try {
-      await api.delete(`/notes/${id}`);
-      setNotes((prev) => prev.filter((note) => note._id !== id)); // Update the notes state to remove the deleted note
+      await apiClient.delete(`/notes/${id}`);
+      setNotes((prev) => prev.filter((item) => item._id !== id));
       toast.success("Note deleted successfully!");
-
-      // Give toast ~1.5–2 seconds to be visible
-      // setTimeout(() => {
-      //   window.location.reload();
-      // }, 1600);
-      // Reload the page to reflect the deletion
     } catch (error) {
       console.log("Error deleting note:", error);
       toast.error("Failed to delete note. Please try again.");
     }
   };
+
   return (
     <Link
       to={`/note/${note._id}`}
@@ -42,15 +36,12 @@ export const NoteCard = ({ note, setNotes }) => {
             {formatDate(new Date(note.createdAt))}
           </span>
 
-          {/* Action buttons */}
           <div className="flex items-center gap-1">
-            {/* update icon */}
             <PenSquare className="size-4" />
             <button
               className="btn btn-ghost btn-xs text-error"
               onClick={(e) => handleDelete(e, note._id)}
             >
-              {/* Delete button */}
               <Trash2Icon className="size-4" />
             </button>
           </div>

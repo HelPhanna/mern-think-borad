@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
-import Navbar from "../components/layout/NarBar";
-import RateLimitedUI from "../components/RateLimitedUI";
 import { NoteCard } from "../components/NoteCard";
-import api from "../lib/axios";
 import NotesNotFound from "../components/NotesNotFound";
+import apiClient from "../../../shared/lib/apiClient";
+import Navbar from "../../../shared/components/layout/Navbar";
+import RateLimitedUI from "../../../shared/components/RateLimitedUI";
 
 export const HomePage = () => {
   const [isRateLimited, setIsRateLimited] = useState(true);
@@ -15,9 +15,7 @@ export const HomePage = () => {
   useEffect(() => {
     const fetchNotes = async () => {
       try {
-        const res = await api.get("/notes");
-        console.log(res.data);
-        res.data;
+        const res = await apiClient.get("/notes");
         setNotes(res.data);
         setIsRateLimited(false);
       } catch (error) {
@@ -25,7 +23,7 @@ export const HomePage = () => {
 
         if (error.response?.status === 429) {
           setIsRateLimited(true);
-          toast.error("wait a few seconds...");
+          toast.error("Wait a few seconds...");
         } else {
           toast.error("Failed to load notes.");
         }
@@ -33,6 +31,7 @@ export const HomePage = () => {
         setLoading(false);
       }
     };
+
     fetchNotes();
   }, []);
 

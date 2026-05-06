@@ -1,6 +1,7 @@
 import { PlusIcon } from "lucide-react";
 import { Link } from "react-router";
-const NarBar = () => {
+
+const Navbar = () => {
   return (
     <header
       data-theme="forest"
@@ -12,7 +13,7 @@ const NarBar = () => {
             ThinkBoard
           </h1>
           <div className="flex items-center gap-4">
-            <Link to={"/create"} className="btn btn-primary btn-sm md:btn-md">
+            <Link to="/create" className="btn btn-primary btn-sm md:btn-md">
               <PlusIcon className="size-5" />
               <span>New Note</span>
             </Link>
@@ -23,4 +24,4 @@ const NarBar = () => {
   );
 };
 
-export default NarBar;
+export default Navbar;

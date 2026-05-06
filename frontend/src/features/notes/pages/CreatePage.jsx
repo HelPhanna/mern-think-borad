@@ -1,9 +1,9 @@
-import { ArrowLeftIcon } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import { ArrowLeftIcon } from "lucide-react";
 import { Link, useNavigate } from "react-router";
 
-import api from "../lib/axios";
+import apiClient from "../../../shared/lib/apiClient";
 
 export const CreatePage = () => {
   const [title, setTitle] = useState("");
@@ -22,15 +22,15 @@ export const CreatePage = () => {
 
     setLoading(true);
     try {
-      await api.post("/notes", { title, content });
+      await apiClient.post("/notes", { title, content });
       toast.success("Note created successfully!");
       navigate("/");
     } catch (error) {
       console.log("Error creating note:", error);
-      if (error.response.status === 429) {
-        toast.error("Slow down! your're creating notes too fast.", {
+      if (error.response?.status === 429) {
+        toast.error("Slow down! You're creating notes too fast.", {
           duration: 4000,
-          icon: "⚠️",
+          icon: "??",
         });
       } else {
         toast.error("Failed to create note.");
@@ -44,7 +44,7 @@ export const CreatePage = () => {
     <div className="min-h-screen bg-base-200">
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-2xl mx-auto">
-          <Link to={"/"} className="btn btn-ghost mb-6">
+          <Link to="/" className="btn btn-ghost mb-6">
             <ArrowLeftIcon className="size-5" />
             Back to Notes
           </Link>
@@ -80,11 +80,7 @@ export const CreatePage = () => {
                 />
 
                 <div className="card-action flex justify-end mt-4">
-                  <button
-                    type="submit"
-                    className="btn btn-primary "
-                    disabled={loading}
-                  >
+                  <button type="submit" className="btn btn-primary " disabled={loading}>
                     {loading ? "Creating..." : "Create Note"}
                   </button>
                 </div>
